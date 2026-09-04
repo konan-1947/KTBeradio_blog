@@ -1,6 +1,16 @@
 import Image from "next/image";
+import { createClient } from "@/lib/supabase/server";
+import { AuthButton } from "@/components/AuthButton";
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const userName =
+    user?.user_metadata?.full_name ??
+    user?.user_metadata?.name ??
+    user?.email?.split("@")[0] ??
+    null;
+
   return (
     <header className="site-header">
       <div className="header-top">
@@ -9,7 +19,7 @@ export function SiteHeader() {
             <Image className="brand-logo" src="/ctber-logo-cropped.png" alt="CTBER" width={258} height={70} priority />
           </div>
           <div className="header-tools">
-            <button className="login-button">Đăng nhập</button>
+            <AuthButton userName={userName} />
             <label className="search-box">
               <span className="sr-only">Tìm kiếm</span>
               <input placeholder="Tìm kiếm..." />
