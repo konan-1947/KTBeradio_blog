@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { AuthButton } from "@/components/AuthButton";
 
@@ -15,9 +16,9 @@ export async function SiteHeader() {
     <header className="site-header">
       <div className="header-top">
         <div className="header-inner">
-          <div className="brand">
+          <Link href="/" className="brand">
             <Image className="brand-logo" src="/ctber-logo-cropped.png" alt="CTBER" width={258} height={70} priority />
-          </div>
+          </Link>
           <div className="header-tools">
             <AuthButton userName={userName} />
             <label className="search-box">
@@ -29,10 +30,10 @@ export async function SiteHeader() {
       </div>
       <nav className="main-nav" aria-label="Điều hướng chính">
         <div className="nav-inner">
-          <a className="active" href="#">Home</a>
+          <Link className="active" href="/">Home</Link>
           <a href="#">Diễn đàn</a>
           <a href="#">Media</a>
-          <a href="#">Thành viên</a>
+          <Link href="/members">Thành viên</Link>
         </div>
       </nav>
     </header>

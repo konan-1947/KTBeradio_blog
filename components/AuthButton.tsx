@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
@@ -103,9 +104,9 @@ export function AuthButton({ userName }: AuthButtonProps) {
   if (userName) {
     return (
       <div className="auth-status">
-        <span className="auth-user-name" title={userName}>
+        <Link className="auth-user-name profile-header-link" href="/profile" title="Mở hồ sơ cá nhân">
           {userName}
-        </span>
+        </Link>
         <button className="logout-button" onClick={signOut} disabled={loading}>
           {loading ? "..." : "Đăng xuất"}
         </button>

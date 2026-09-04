@@ -8,7 +8,14 @@ export const metadata: Metadata = {
   description: "Đăng nhập vào diễn đàn CTBER.",
 };
 
-export default function LoginPage() {
+type LoginPageProps = {
+  searchParams: Promise<{ next?: string | string[] }>;
+};
+
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const { next } = await searchParams;
+  const nextPath = typeof next === "string" ? next : undefined;
+
   return (
     <>
       <SiteHeader />
@@ -41,7 +48,7 @@ export default function LoginPage() {
                 <p>Chào mừng bạn trở lại diễn đàn</p>
               </div>
             </div>
-            <LoginForm />
+            <LoginForm next={nextPath} />
             <Link className="login-back-link" href="/">
               ← Về trang chủ
             </Link>

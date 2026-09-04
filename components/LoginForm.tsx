@@ -4,8 +4,17 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-export function LoginForm() {
+type LoginFormProps = {
+  next?: string;
+};
+
+function getSafeNextPath(next?: string) {
+  return next && next.startsWith("/") && !next.startsWith("//") ? next : "/";
+}
+
+export function LoginForm({ next }: LoginFormProps) {
   const router = useRouter();
+  const nextPath = getSafeNextPath(next);
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -62,7 +71,7 @@ export function LoginForm() {
       if (signUpError) {
         setError(signUpError.message);
       } else if (data.session) {
-        router.push("/");
+        router.push(nextPath);
         router.refresh();
       } else {
         setMessage("Đăng ký thành công. Hãy kiểm tra Gmail để xác nhận tài khoản.");
@@ -80,7 +89,7 @@ export function LoginForm() {
     if (signInError) {
       setError("Email hoặc mật khẩu không đúng.");
     } else {
-      router.push("/");
+      router.push(nextPath);
       router.refresh();
     }
 
